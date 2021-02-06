@@ -20,12 +20,13 @@
 <script lang="ts">
 import { login } from '@/api/user'
 import { defineComponent, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/store'
 
 const useLogin = () => {
   const router = useRouter()
   const store = useStore()
+  const route = useRoute()
   const user = reactive({
     email: 'lpzmail@163.com',
     password: '123456'
@@ -38,9 +39,8 @@ const useLogin = () => {
     try {
       const { data } = await login(user)
       store.commit('setUser', data.user)
-      router.push({
-        name: 'home'
-      })
+      const redirect = (route.query.redirect || '/') as string
+      router.push(redirect)
     } catch (err) {
       if (err.response.status === 422) {
         errors.value = err.response.data.detail
