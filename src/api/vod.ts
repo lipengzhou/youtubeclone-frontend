@@ -25,3 +25,25 @@ export const refreshUploadVideo = (videoId: string) => {
     }
   })
 }
+
+interface VideoMeta {
+  CoverURL: string
+  Duration: number
+  Status: string
+  Title: string
+  VideoId: string
+}
+
+export interface VideoPlayAuthPayload {
+  RequestId: string
+  PlayAuth: string
+  VideoMeta: VideoMeta
+}
+
+export const getVideoPlayAuth = (videoId: string) => {
+  return request.get<VideoPlayAuthPayload>('/api/v1/vod/GetVideoPlayAuth', {
+    params: {
+      VideoId: videoId
+    }
+  })
+}
