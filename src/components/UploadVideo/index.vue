@@ -38,6 +38,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { createUploadVideo, refreshUploadVideo } from '@/api/vod'
 
 export default defineComponent({
   name: 'UploadVideo',
@@ -68,15 +69,22 @@ export default defineComponent({
         // 是否上报上传日志到视频点播，默认为true
         enableUploadProgress: true,
         // 开始上传
-        onUploadstarted: function (uploadInfo: any) {
+        onUploadstarted: async function (uploadInfo: any) {
           console.log('onUploadstarted', uploadInfo)
           // 上传方式1，需要根据uploadInfo.videoId是否有值，调用视频点播的不同接口获取uploadauth和uploadAddress，如果videoId有值，调用刷新视频上传凭证接口，否则调用创建视频上传凭证接口
           if (uploadInfo.videoId) {
             // 如果uploadInfo.videoId存在，调用刷新视频上传凭证接口
+            const { data } = await refreshUploadVideo(uploadInfo.videoId)
+            uploader.setUploadAuthAndAddress(uploadInfo, data.UploadAuth, data.UploadAddress, data.VideoId)
           } else {
             // 如果uploadInfo.videoId不存在，调用获取视频上传地址和凭证接口
             // 从视频点播服务获取的uploadAuth、uploadAddress和videoId，设置到SDK里
             //  uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress,videoId);
+            const { data } = await createUploadVideo({
+              Title: uploadInfo.file.name,
+              FileName: uploadInfo.file.name
+            })
+            uploader.setUploadAuthAndAddress(uploadInfo, data.UploadAuth, data.UploadAddress, data.VideoId)
           }
         },
         // 文件上传成功
@@ -92,12 +100,13 @@ export default defineComponent({
           console.log('onUploadProgress', `${Math.ceil(loadedPercent * 100)}%`)
         },
         // 上传凭证超时
-        onUploadTokenExpired: function (uploadInfo: any) {
-          console.log('onUploadTokenExpired', uploadInfo)
+        onUploadTokenExpired: async function (uploadInfo: any) {
+          // console.log('onUploadTokenExpired', uploadInfo)
           // 实现时，根据uploadInfo.videoId调用刷新视频上传凭证接口重新获取UploadAuth
           // 从点播服务刷新的uploadAuth，设置到SDK里
+          const { data } = await refreshUploadVideo(uploadInfo.videoId)
 
-          // uploader.resumeUploadWithAuth(uploadAuth)
+          uploader.resumeUploadWithAuth(data.UploadAuth)
         },
         // 全部文件上传结束
         onUploadEnd: function (uploadInfo: any) {
