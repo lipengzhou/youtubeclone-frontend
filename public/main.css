@@ -553,3 +553,191 @@ textarea {
 .cTlmoq li:hover {
   cursor: pointer;
 }
+
+.fRnHrz {
+  display: grid;
+  grid-template-columns: 70% 1fr;
+  gap: 2rem;
+  padding: 1.3rem 1.3rem 7rem;
+}
+
+.fRnHrz .video-container .video-info {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.fRnHrz .video-container video {
+  width: 100%;
+  max-width: 100%;
+}
+
+.fRnHrz .video-info-stats {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.fRnHrz .video-info span {
+  color: rgb(170, 170, 170);
+}
+
+.fRnHrz .channel-info-description {
+  padding-top: 1rem;
+  border-bottom: 1px solid rgb(56, 56, 56);
+  border-top: 1px solid rgb(56, 56, 56);
+}
+
+.fRnHrz .channel-info-flex {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.flex-row {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.flex-row img, .flex-row svg {
+  margin-right: 0.8rem;
+}
+
+.md {
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+}
+
+.avatar {
+  height: 22px;
+  width: 22px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.small {
+  font-size: 0.9rem;
+}
+
+.fRnHrz .channel-info-description p {
+  font-size: 0.9rem;
+  padding: 1rem 0px;
+}
+
+.fNzLaQ {
+  margin: 1rem 0px;
+}
+
+.fNzLaQ h3 {
+  margin-bottom: 0.8rem;
+}
+
+.fNzLaQ .add-comment {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-bottom: 2.3rem;
+}
+
+.fNzLaQ .add-comment img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.fNzLaQ .add-comment textarea {
+  background: inherit;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-image: initial;
+  border-bottom: 1px solid rgb(56, 56, 56);
+  color: rgb(255, 255, 255);
+  width: 100%;
+  height: 100%;
+}
+
+.fNzLaQ .comment {
+  display: flex;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.fNzLaQ .comment img {
+  width: 40px;
+  object-fit: cover;
+  height: 40px;
+  border-radius: 20px;
+  position: relative;
+  top: 2px;
+  margin-right: 1rem;
+}
+
+.fRnHrz .related-videos div {
+  margin-bottom: 1rem;
+}
+
+.fRnHrz .related-videos img {
+  height: 140px;
+}
+
+.dteCCc .thumb {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  box-shadow: rgb(0 0 0 / 20%) 0px 1px 5px 0px;
+  border-radius: 4px;
+}
+
+.fRnHrz .related-videos div {
+  margin-bottom: 1rem;
+}
+
+.dteCCc .video-info-container {
+  display: flex;
+  margin-top: 0.3rem;
+}
+
+.fRnHrz .related-videos div {
+  margin-bottom: 1rem;
+}
+
+.fRnHrz .video-info span {
+  color: rgb(170, 170, 170);
+}
+
+.fRnHrz .video-info span {
+  color: rgb(170, 170, 170);
+}
+
+.dteCCc .video-info span {
+  font-size: 0.9rem;
+  padding-right: 0.1rem;
+}
+
+.flex-row img, .flex-row svg {
+  margin-right: 0.8rem;
+}
+
+.fRnHrz svg {
+  fill: rgb(56, 56, 56);
+}
+
+.fRnHrz .video-info-stats div {
+  margin-left: 6rem;
+  position: relative;
+  top: -2px;
+}
+
+input:focus, textarea:focus, button:focus, video:focus {
+  outline: none;
+}
+
+textarea {
+  resize: none;
+}

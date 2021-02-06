@@ -18,6 +18,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'profile',
         component: () => import(/* webpackChunkName: "profile" */ '@/views/profile/index.vue'),
         meta: { requiresAuth: true }
+      },
+      {
+        path: 'watch/:videoId',
+        name: 'watch',
+        component: () => import(/* webpackChunkName: "video" */ '@/views/watch/index.vue')
       }
     ]
   },
