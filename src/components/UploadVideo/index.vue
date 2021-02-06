@@ -1,7 +1,7 @@
 <template>
   <div class="sc-AxiKw dZbDOR">
     <div class="modal-content">
-      <form>
+      <form @submit.prevent="handleSubmit">
         <div class="modal-header">
           <div class="modal-header-left">
             <svg
@@ -23,8 +23,8 @@
           </div>
         </div>
         <div class="tab video-form">
-          <input required type="file" />
-          <video controls></video>
+          <input ref="file" required type="file" @change="handleFileChange" />
+          <video ref="videoEl" controls></video>
           <input required type="text" placeholder="Enter the title" />
           <textarea
             required
@@ -37,17 +37,92 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'UploadVideo',
   setup (props, context) {
+    const file = ref(null)
+    const videoEl = ref(null)
     const handleClose = () => {
       // 对外发布一个自定义事件
       context.emit('close')
     }
+    const handleFileChange = () => {
+      const fileObj = (file.value as any).files[0]
+      ;(videoEl.value as any).src = URL.createObjectURL(fileObj)
+    }
+
+    const createUploader = () => {
+      const uploader = new window.AliyunUpload.Vod({
+        // 阿里账号ID，必须有值
+        userId: '122',
+        // 分片大小默认1 MB，不能小于100 KB
+        partSize: 1048576,
+        // 并行上传分片个数，默认5
+        parallel: 5,
+        // 网络原因失败时，重新上传次数，默认为3
+        retryCount: 3,
+        // 网络原因失败时，重新上传间隔时间，默认为2秒
+        retryDuration: 2,
+        // 是否上报上传日志到视频点播，默认为true
+        enableUploadProgress: true,
+        // 开始上传
+        onUploadstarted: function (uploadInfo: any) {
+          console.log('onUploadstarted', uploadInfo)
+          // 上传方式1，需要根据uploadInfo.videoId是否有值，调用视频点播的不同接口获取uploadauth和uploadAddress，如果videoId有值，调用刷新视频上传凭证接口，否则调用创建视频上传凭证接口
+          if (uploadInfo.videoId) {
+            // 如果uploadInfo.videoId存在，调用刷新视频上传凭证接口
+          } else {
+            // 如果uploadInfo.videoId不存在，调用获取视频上传地址和凭证接口
+            // 从视频点播服务获取的uploadAuth、uploadAddress和videoId，设置到SDK里
+            //  uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress,videoId);
+          }
+        },
+        // 文件上传成功
+        onUploadSucceed: function (uploadInfo: any) {
+          console.log('onUploadSucceed', uploadInfo)
+        },
+        // 文件上传失败
+        onUploadFailed: function (uploadInfo: any, code: any, message: any) {
+          console.log('onUploadFailed', uploadInfo, code, message)
+        },
+        // 文件上传进度，单位：字节
+        onUploadProgress: function (uploadInfo: any, totalSize: any, loadedPercent: any) {
+          console.log('onUploadProgress', `${Math.ceil(loadedPercent * 100)}%`)
+        },
+        // 上传凭证超时
+        onUploadTokenExpired: function (uploadInfo: any) {
+          console.log('onUploadTokenExpired', uploadInfo)
+          // 实现时，根据uploadInfo.videoId调用刷新视频上传凭证接口重新获取UploadAuth
+          // 从点播服务刷新的uploadAuth，设置到SDK里
+
+          // uploader.resumeUploadWithAuth(uploadAuth)
+        },
+        // 全部文件上传结束
+        onUploadEnd: function (uploadInfo: any) {
+          console.log('onUploadEnd', uploadInfo)
+        }
+      })
+      return uploader
+    }
+
+    const handleSubmit = async () => {
+      // 获取 uploader 上传实例
+      const uploader = createUploader()
+      // 添加上传文件
+      const paramData = JSON.stringify({ Vod: {} })
+      uploader.addFile((file.value as any).files[0], null, null, null, paramData)
+      // 开始上传
+      uploader.startUpload()
+      // 上传完成 -> 创建视频
+    }
     return {
-      handleClose
+      handleClose,
+      file,
+      videoEl,
+      handleFileChange,
+      handleSubmit
     }
   }
 })
