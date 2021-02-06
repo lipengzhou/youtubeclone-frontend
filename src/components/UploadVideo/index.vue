@@ -25,8 +25,9 @@
         <div class="tab video-form">
           <input ref="file" required type="file" @change="handleFileChange" />
           <video ref="videoEl" controls></video>
-          <input required type="text" placeholder="Enter the title" />
+          <input v-model="video.title" required type="text" placeholder="Enter the title" />
           <textarea
+            v-model="video.description"
             required
             placeholder="Tell viewers about your video"
           ></textarea>
@@ -37,14 +38,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { createUploadVideo, refreshUploadVideo } from '@/api/vod'
+import { createVideo } from '@/api/video'
 
 export default defineComponent({
   name: 'UploadVideo',
   setup (props, context) {
     const file = ref(null)
     const videoEl = ref(null)
+    const video = reactive({
+      title: '',
+      description: '',
+      vodVideoId: ''
+    })
     const handleClose = () => {
       // 对外发布一个自定义事件
       context.emit('close')
@@ -88,8 +95,12 @@ export default defineComponent({
           }
         },
         // 文件上传成功
-        onUploadSucceed: function (uploadInfo: any) {
+        onUploadSucceed: async function (uploadInfo: any) {
           console.log('onUploadSucceed', uploadInfo)
+          video.vodVideoId = uploadInfo.videoId
+          // 提交给后台保存数据
+          const { data } = await createVideo(video)
+          console.log('保存成功', data)
         },
         // 文件上传失败
         onUploadFailed: function (uploadInfo: any, code: any, message: any) {
@@ -131,7 +142,8 @@ export default defineComponent({
       file,
       videoEl,
       handleFileChange,
-      handleSubmit
+      handleSubmit,
+      video
     }
   }
 })
