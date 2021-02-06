@@ -10,7 +10,7 @@
       <template v-if="$store.state.user">
         <li>
           <div>
-            <label for="video-upload">
+            <label for="video-upload" @click="isUploadShow = true">
               <svg
                 viewBox="0 0 24 24"
                 preserveAspectRatio="xMidYMid meet"
@@ -26,12 +26,6 @@
                 </g>
               </svg>
             </label>
-            <input
-              id="video-upload"
-              type="file"
-              accept="video/*"
-              style="display: none"
-            />
           </div>
         </li>
         <li>
@@ -74,4 +68,24 @@
       </template>
     </ul>
   </div>
+
+  <upload-video v-if="isUploadShow" @close="isUploadShow = false"/>
 </template>
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue'
+import UploadVideo from '@/components/UploadVideo/index.vue'
+
+export default defineComponent({
+  name: 'AppHeader',
+  components: {
+    UploadVideo
+  },
+  setup () {
+    const isUploadShow = ref(false)
+    return {
+      isUploadShow
+    }
+  }
+})
+</script>

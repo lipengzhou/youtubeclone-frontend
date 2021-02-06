@@ -403,13 +403,19 @@ a {
 }
 .dZbDOR .video-form input,
 .dZbDOR .video-form textarea {
-  width: 95%;
+  width: 100%;
   background: #121212;
   border: 1px solid #383838;
   color: #fff;
   padding: 0.6rem 1.2rem;
   margin-bottom: 1.2rem;
   border-radius: 3px;
+}
+.dZbDOR .video-form input[type=file] {
+  padding: 15px;
+}
+.dZbDOR .video-form video {
+  width: 100%;
 }
 .JixXX input {
   width: 500px;
