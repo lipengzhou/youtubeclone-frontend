@@ -566,7 +566,8 @@ textarea {
   margin-bottom: 1rem;
 }
 
-.fRnHrz .video-container video {
+.fRnHrz .video-container video,
+.fRnHrz .video-container .prism-player {
   width: 100%;
   max-width: 100%;
 }
