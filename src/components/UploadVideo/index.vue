@@ -41,10 +41,13 @@
 import { defineComponent, reactive, ref } from 'vue'
 import { createUploadVideo, refreshUploadVideo } from '@/api/vod'
 import { createVideo } from '@/api/video'
+import router from '@/router'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'UploadVideo',
   setup (props, context) {
+    const router = useRouter()
     const file = ref(null)
     const videoEl = ref(null)
     const video = reactive({
@@ -101,6 +104,13 @@ export default defineComponent({
           // 提交给后台保存数据
           const { data } = await createVideo(video)
           console.log('保存成功', data)
+          router.push({
+            name: 'watch',
+            params: {
+              videoId: data.video._id
+            }
+          })
+          context.emit('close')
         },
         // 文件上传失败
         onUploadFailed: function (uploadInfo: any, code: any, message: any) {

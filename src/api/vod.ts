@@ -40,10 +40,10 @@ export interface VideoPlayAuthPayload {
   VideoMeta: VideoMeta
 }
 
-export const getVideoPlayAuth = (videoId: string) => {
+export const getVideoPlayAuth = (vodVideoId: string) => {
   return request.get<VideoPlayAuthPayload>('/api/v1/vod/GetVideoPlayAuth', {
     params: {
-      VideoId: videoId
+      VideoId: vodVideoId
     }
   })
 }
